@@ -107,7 +107,7 @@
                     domain="[('my_activity_date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
                   ]"
                 />
-                <group expand="0" string="Group By">
+                <group string="Group By">
                     <filter
                         string="Partner"
                         name="group_partner"
