@@ -107,50 +107,51 @@
                     domain="[('my_activity_date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
                   ]"
                 />
-                <group string="Group By">
-                    <filter
-                        string="Partner"
-                        name="group_partner"
-                        domain="[]"
-                        context="{'group_by':'partner_id'}"
-                    />
-                    <filter
-                        string="Commercial Entity"
-                        name="group_commercial_partner"
-                        domain="[]"
-                        context="{'group_by':'commercial_partner_id'}"
-                    />
-                    <filter
-                        string="Team"
-                        name="group_team"
-                        domain="[]"
-                        context="{'group_by':'team_id'}"
-                    />
-                    <filter
-                        string="User"
-                        name="group_user"
-                        domain="[]"
-                        context="{'group_by':'user_id'}"
-                    />
-                    <filter
-                        string="Stage"
-                        name="group_stage"
-                        domain="[]"
-                        context="{'group_by':'stage_id'}"
-                    />
-                    <filter
-                        string="Category"
-                        name="group_category"
-                        domain="[]"
-                        context="{'group_by':'category_id'}"
-                    />
-                    <filter
-                        string="Tag"
-                        name="group_tag"
-                        domain="[]"
-                        context="{'group_by':'tag_ids'}"
-                    />
-                </group>
+                <separator />
+                <!-- Odoo 19: <group string="Group By"> wrapper removed; groupby
+                     filters sit directly at the <search> level. -->
+                <filter
+                    string="Partner"
+                    name="group_partner"
+                    domain="[]"
+                    context="{'group_by':'partner_id'}"
+                />
+                <filter
+                    string="Commercial Entity"
+                    name="group_commercial_partner"
+                    domain="[]"
+                    context="{'group_by':'commercial_partner_id'}"
+                />
+                <filter
+                    string="Team"
+                    name="group_team"
+                    domain="[]"
+                    context="{'group_by':'team_id'}"
+                />
+                <filter
+                    string="User"
+                    name="group_user"
+                    domain="[]"
+                    context="{'group_by':'user_id'}"
+                />
+                <filter
+                    string="Stage"
+                    name="group_stage"
+                    domain="[]"
+                    context="{'group_by':'stage_id'}"
+                />
+                <filter
+                    string="Category"
+                    name="group_category"
+                    domain="[]"
+                    context="{'group_by':'category_id'}"
+                />
+                <filter
+                    string="Tag"
+                    name="group_tag"
+                    domain="[]"
+                    context="{'group_by':'tag_ids'}"
+                />
             </search>
         </field>
     </record>
