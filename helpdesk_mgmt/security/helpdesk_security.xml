@@ -16,10 +16,11 @@
         <record id="group_helpdesk_manager" model="res.groups">
             <field name="name">Helpdesk Manager</field>
             <field name="implied_ids" eval="[(4, ref('group_helpdesk_user'))]" />
-            <field
-                name="users"
-                eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
-            />
+        </record>
+        <!-- Odoo 19: res.groups.users field removed. Assign admin users to
+             the helpdesk_manager group from the res.users side instead. -->
+        <record id="base.user_admin" model="res.users">
+            <field name="groups_id" eval="[(4, ref('group_helpdesk_manager'))]" />
         </record>
     </data>
     <data noupdate="1">
