@@ -370,8 +370,10 @@ class HelpdeskTicket(models.Model):
         self.message_subscribe(partner_ids)
         return super().message_update(msg, update_vals=update_vals)
 
-    def _message_get_suggested_recipients(self):
-        recipients = super()._message_get_suggested_recipients()
+    def _message_get_suggested_recipients(self, **kwargs):
+        # Odoo 19 added a 'reply_discussion' kwarg (and may add others later);
+        # accepted via **kwargs for forward compatibility.
+        recipients = super()._message_get_suggested_recipients(**kwargs)
         try:
             for ticket in self:
                 if ticket.partner_id:
