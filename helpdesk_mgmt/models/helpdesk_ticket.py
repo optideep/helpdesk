@@ -377,13 +377,13 @@ class HelpdeskTicket(models.Model):
         try:
             for ticket in self:
                 if ticket.partner_id:
-                    ticket._message_add_suggested_recipient(
+                    ticket._message_add_suggested_recipients(
                         recipients,
                         partner=ticket.partner_id,
                         reason=self.env._("Customer"),
                     )
                 elif ticket.partner_email:
-                    ticket._message_add_suggested_recipient(
+                    ticket._message_add_suggested_recipients(
                         recipients,
                         email=ticket.partner_email,
                         reason=self.env._("Customer Email"),
