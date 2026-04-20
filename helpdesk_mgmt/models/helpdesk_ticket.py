@@ -370,29 +370,36 @@ class HelpdeskTicket(models.Model):
         self.message_subscribe(partner_ids)
         return super().message_update(msg, update_vals=update_vals)
 
-    def _message_get_suggested_recipients(self, **kwargs):
-        # Odoo 19 added a 'reply_discussion' kwarg (and may add others later);
-        # accepted via **kwargs for forward compatibility.
-        recipients = super()._message_get_suggested_recipients(**kwargs)
+    def _message_add_suggested_recipients(self, force_primary_email=False):
+        """Suggest the ticket's customer (partner_id or partner_email) as recipient.
+
+        Odoo 19 moved suggested-recipients logic from a single
+        _message_get_suggested_recipients override (list of tuples) to a
+        layered API :
+          - _message_add_suggested_recipients: low-level, returns a dict
+            {record_id: {'email_to_lst': [...], 'partners': <recordset>}}
+          - _message_get_suggested_recipients_batch: formats as list of dicts
+          - _message_get_suggested_recipients: ensure_one, reads batch[self.id]
+
+        We hook at the low-level layer to inject the ticket customer.
+        """
+        suggested = super()._message_add_suggested_recipients(
+            force_primary_email=force_primary_email
+        )
         try:
             for ticket in self:
                 if ticket.partner_id:
-                    ticket._message_add_suggested_recipients(
-                        recipients,
-                        partner=ticket.partner_id,
-                        reason=self.env._("Customer"),
-                    )
+                    suggested[ticket.id]['partners'] |= ticket.partner_id
                 elif ticket.partner_email:
-                    ticket._message_add_suggested_recipients(
-                        recipients,
-                        email=ticket.partner_email,
-                        reason=self.env._("Customer Email"),
+                    suggested[ticket.id]['email_to_lst'] += (
+                        tools.mail.email_split_and_format_normalize(
+                            ticket.partner_email
+                        )
                     )
         except AccessError:
-            # no read access rights -> just ignore suggested recipients because this
-            # imply modifying followers
-            return recipients
-        return recipients
+            # no read access rights -> leave base suggestions as-is
+            pass
+        return suggested
 
     def _notify_get_reply_to(self, default=None, **kwargs):
         """Override to set alias of tasks to their team if any.
