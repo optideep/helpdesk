@@ -176,10 +176,7 @@
     >
         <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
             <div class="row o_portal_helpdesk_sidebar">
-                <t
-                    t-call="portal.portal_record_sidebar"
-                    id="helpdesk_ticket_portal_sidebar"
-                >
+                <t t-call="portal.portal_record_sidebar">
                     <t t-set="classes" t-value="'col-lg-4 col-xxl-3 d-print-none'" />
 
                     <t t-set="title">
